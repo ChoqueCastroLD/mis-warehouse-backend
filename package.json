@@ -1,11 +1,17 @@
 {
     "name": "mis-warehouse-backend",
     "version": "1.0.0",
-    "description": "asd is the ultimate mis solution",
+    "description": "a warehouse solution",
     "main": "src/server.js",
     "scripts": {
         "setup": "npm install && npm update",
-        "start": "node src/server.js"
+        "dev": "nodemon src/server.js",
+        "start": "node src/server.js",
+        "migration:init": "migrate init --migrations-dir ./src/migrations",
+        "migration:create": "migrate create --migrations-dir ./src/migrations --template-file ./src/migrations/.template.js",
+        "migration:list": "migrate list --migrations-dir ./src/migrations",
+        "migration:up": "migrate up --migrations-dir ./src/migrations --env ./.env",
+        "migration:down": "migrate down --migrations-dir ./src/migrations --env ./.env"
     },
     "keywords": [
         "express",
@@ -14,9 +20,15 @@
     ],
     "license": "GNU-3.0",
     "dependencies": {
-        "@hapi/joi": "^16.1.7",
-        "mandatoryenv": "^1.1.1",
-        "mongodb": "^3.3.3",
-        "socket.io": "^2.3.0"
+        "jsonschema": "^1.2.4",
+        "jsonwebtoken": "^8.5.1",
+        "mandatoryenv": "^1.1.5",
+        "migrate": "^1.6.2",
+        "mysqlm": "^2.0.2",
+        "socket.io": "^2.3.0",
+        "validate-keys": "0.0.3"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.1"
     }
 }

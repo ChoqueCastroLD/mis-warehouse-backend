@@ -1,20 +1,15 @@
-const {
-    DB_URL
-} = process.env;
+require('mandatoryenv').load([
+    'DB_HOST',
+    'DB_DATABASE',
+    'DB_USER',
+    'DB_PASSWORD'
+]);
 
-const {MongoClient, ObjectId} = require("mongodb");
+const mysqlm = require('mysqlm');
 
-global.ObjectId = ObjectId;
-
-let conn = new MongoClient(DB_URL, {useUnifiedTopology: true});
-
-module.exports = {
-    /**
-     * Singleton-like Database Object that connects to the mongodb database
-     */
-    async getDbo(){
-        if(!conn.isConnected())
-            await conn.connect();
-        return conn.db();
-    }
-}
+module.exports = mysqlm.connect({
+    host: process.env.DB_HOST,
+    database: process.env.DB_DATABASE,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD
+})

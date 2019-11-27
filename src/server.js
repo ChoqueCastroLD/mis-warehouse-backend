@@ -1,7 +1,5 @@
 // Load .env Enviroment Variables to process.env
-
 require('mandatoryenv').load([
-    'DB_URL',
     'PORT'
 ]);
 

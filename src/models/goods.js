@@ -1,46 +1,36 @@
-const database = require('../models/database.js');
+
+
+const db = require('./database.js');
+
+const validateKeys = require('validate-keys');
+
+const { validate } = require('jsonschema');
 
 module.exports = {
-
-    async getAll() {
-        let dbo = await database.getDbo();
-
-        return await dbo.collection('goods').find().toArray();
+    
+    async create(name, email){
+        const result = await db.query('INSERT INTO goods(id, name, email) VALUES(0, ?, ?)', [name, email]);
+        return result;
     },
-
-    async search(good) {
-        let dbo = await database.getDbo();
-
-        let {_id} = good;
-
-        return await dbo.collection('goods').find({_id: new ObjectId(_id)}).toArray();
+    
+    async getall(){
+        const result = await db.query('SELECT id, name, email FROM goods');
+        return result;
     },
-
-    async create(good) {
-        let dbo = await database.getDbo();
-        try {
-            await dbo.collection('goods').insertOne(good);
-        } catch (error) {
-            console.log(error);
-            
-        }
+    
+    async search(id){
+        const result = await db.query('SELECT id, name, email FROM goods WHERE id = ?', [id]);
+        return result[0];
     },
-
-    async update(good) {
-        let dbo = await database.getDbo();
-
-        let {_id} = good;
-        delete good._id;
-
-        await dbo.collection('goods').updateOne({_id:  new ObjectId(_id)},{$set: good});
+    
+    async update(id, name, email){
+        const result = await db.query('UPDATE goods SET name = ?, email = ? WHERE id = ?', [name, email, id]);
+        return result;
     },
-
-    async delete(good) {
-        let dbo = await database.getDbo();
-
-        let {_id} = good;
-        
-        await dbo.collection('goods').deleteOne({_id: new ObjectId(_id)});
+    
+    async delete(id){
+        const result = await db.query('DELETE FROM goods WHERE id = ?', [id]);
+        return result;
     }
 
 }

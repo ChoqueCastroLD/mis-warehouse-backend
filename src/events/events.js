@@ -1,13 +1,11 @@
 const { loadEvents, listEvents } = require('../util/utilEvents');
 
 const events = {
-    goods: require('../events/goods')
+    superuser: require('../events/superuser'),
+    warehouse: require('../events/warehouse'),
+    //goods: require('../events/goods')
 }
 
 listEvents(events);
 
-module.exports = function (socket) {
-
-    loadEvents(events, socket);
-
-}
+module.exports = (socket) => loadEvents(events, socket);

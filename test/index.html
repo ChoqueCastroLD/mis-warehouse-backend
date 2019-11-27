@@ -56,7 +56,7 @@
     <h5>Evento:</h5>
     <input type="text" id="txtEvent" value="goods:">
     <h5>Data:</h5>
-    <input type="text" id="txtPayload">
+    <textarea id="txtPayload" width="50px" height="100px"></textarea>
     <br>
     <input type="button" id="btnSend" value="Enviar">
     <br>
@@ -68,6 +68,7 @@
 
     <script>
         const client = io('http://localhost:3000');
+
         var onevent = client.onevent;
         client.onevent = function (packet) {
             var args = packet.data || [];
@@ -76,23 +77,29 @@
             onevent.call(this, packet);
         };
 
+        function emit(event, payload){
+            return new Promise((resolve, reject) => {
+                client.emit(event, payload, (res) => {
+                    if(res.status === true)
+                        resolve(res);
+                    else
+                        reject(res);
+                })
+            })
+        }
+
         const lista = document.getElementById('lista');
 
         console.log(client);
-        document.getElementById('btnSend').addEventListener('click', () => {
-            let evt = document.getElementById('txtEvent').value;
-            let payload = document.getElementById('txtPayload').value;
+        document.getElementById('btnSend').addEventListener('click', async () => {
+            let evt = document.getElementById('txtEvent').value || '';
+            let payload = document.getElementById('txtPayload').value || '';
 
-            client.emit(evt, payload);
-        })
-
-        client.on('*', (event, payload) => {
-            console.log("Recibiendo Evento: ", event);
-            let pre = lista.innerHTML;
-
-            let html = `<li>${event}<ul><li>${JSON.stringify(payload)}</li></ul></li>`;
-
-            lista.innerHTML = html + pre;
+            console.log("Enviando evento: ", JSON.stringify({evt, payload}));
+            
+            let data = await emit(evt, payload);
+            
+            console.log("Recibiendo respuesta: ", data);
         })
     </script>
 </body>

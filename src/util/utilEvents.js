@@ -1,3 +1,4 @@
+/** Try to Parse data if possible */
 function fixData(data) {
     if(typeof data === "string"){
         try {
@@ -13,10 +14,20 @@ function loadEvents(events, socket) {
         for (const method in events[key]) {
             const fn = events[key][method];
             const event = key+":"+method;
-            socket.on(event, (data) => {
+            socket.on(event, (d, response) => {
                 socket.event = event;
-                fn(socket, fixData(data));
-            })
+                fn( socket, fixData(d) )
+                .then( r => {
+                    response({status: true, data: r});
+                })
+                .catch( err => {
+                    console.log("error ", err);
+
+                    if(err.stack)
+                        err = err.toString();
+                    response({status: false, error: err || 'Internal Server Error'});
+                } );
+            });
         }
     }
     
@@ -31,6 +42,8 @@ function listEvents(events) {
         }
     }
 }
+
+/** Export Utilities */
 module.exports = {
     loadEvents,
     listEvents
