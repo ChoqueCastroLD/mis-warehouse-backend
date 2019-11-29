@@ -3,22 +3,20 @@ const txtLoginPass = document.getElementById('txtLoginPass');
 
 const btnLoginSubmit = document.getElementById('btnLoginSubmit');
 
-btnLoginSubmit.addEventListener('click', evt => {
+btnLoginSubmit.addEventListener('click', async (evt) => {
     btnLoginSubmit.setAttribute('disabled', true);
-    client.emit('superuser:login', {email: txtLoginEmail.value, password: txtLoginPass.value})
-    .then( res => {
-        console.log(res);
-        if(!res.status){
-            throw res.message || 'Bad response, try again later';        
-        }
+    
+    try {
+        const res = await client.emit('superuser:login', { email: txtLoginEmail.value, password: txtLoginPass.value });
+        
+        if (!res.status)
+            throw res.message || 'Bad response, try again later';
 
         window.localStorage.token = res.access_token;
         window.location = '/superuser/panel';
-    })
-    .catch( err => {
-        M.toast({html: err.error || 'Intente mas tarde'});
-    })
-    .finally( () => {
-        btnLoginSubmit.removeAttribute('disabled');
-    })
+    } catch (error) {
+        M.toast({ html: err.error || 'Intente mas tarde' });
+    }
+    
+    btnLoginSubmit.removeAttribute('disabled');
 })

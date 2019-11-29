@@ -2,8 +2,10 @@ const warehouse = require('../models/warehouse');
 
 module.exports = {
     async login (req, res, next) {
-        req.session.access_token = undefined;
-        req.session.id = undefined;
+        delete req.session.access_token;
+        delete req.session.type;
+        delete req.session.id;
+        
         const {warehouse_name} = req.params;
         
         if(warehouse_name){

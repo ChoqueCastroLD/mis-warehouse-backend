@@ -17,7 +17,7 @@ function loadEvents(events, socket) {
             socket.on(event, (d, response) => {
                 socket.event = event;
 
-                socket.getSession = (prop) => {socket.handshake.session[prop]; socket.handshake.session.save()}
+                socket.getSession = (prop) => socket.handshake.session[prop];
                 socket.setSession = (prop, value) => {socket.handshake.session[prop] = value; socket.handshake.session.save()}
                 socket.deleteSession = (prop) => {delete socket.handshake.session[prop]; socket.handshake.session.save()}
 
