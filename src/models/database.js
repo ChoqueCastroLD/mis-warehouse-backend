@@ -5,13 +5,11 @@ require('mandatoryenv').load([
     'DB_USER'
 ]);
 
-const DB_DATABASE = process.env.DB_DATABASE || '';
-
 const mysqlm = require('mysqlm');
 
 module.exports = mysqlm.connect({
     host: process.env.DB_HOST,
     database: process.env.DB_DATABASE,
     user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD
+    password: process.env.DB_PASSWORD || ''
 })

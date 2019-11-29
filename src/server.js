@@ -1,6 +1,7 @@
 // Load .env Enviroment Variables to process.env
 require('mandatoryenv').load([
-    'PORT'
+    'PORT',
+    'SECRET'
 ]);
 
 // Require dependencies
@@ -8,6 +9,7 @@ require('mandatoryenv').load([
 const http = require('http');
 const socketio = require('socket.io');
 const express = require('express');
+const morgan = require('morgan');
 const sharedsession = require("express-socket.io-session");
 const session = require("express-session")({
     secret: "my-secret",
@@ -22,6 +24,7 @@ const app = express();
 
 app.set('trust proxy', 1);
 app.use(session);
+app.use(morgan('dev'));
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/public');
 
