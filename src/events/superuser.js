@@ -31,7 +31,11 @@ module.exports = {
         if(!result)
             throw 'Incorrect Email/Password Combination';
 
-        return auth.getToken(result.id, result.email, result.password, 'superuser');
+        socket.setSession('access_token', auth.getToken(result.id, result.email, result.password, 'superuser'));
+        socket.setSession('superuser_id', result.id);
+        socket.setSession('type', 'superuser');
+
+        return {id: result.id, access_token: auth.getToken(result.id, result.email, result.password, 'superuser')};
     }
 
 }

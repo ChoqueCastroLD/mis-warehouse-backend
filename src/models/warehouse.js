@@ -18,6 +18,11 @@ module.exports = {
         const result = await db.query('SELECT id, name, superuser_id FROM warehouse WHERE id = ?', [id]);
         return result[0];
     },
+
+    async searchname(name){
+        const result = await db.query('SELECT id, name, superuser_id FROM warehouse WHERE name = ?', [name]);
+        return result[0];
+    },
     
     async update(id, name, superuser_id){
         const result = await db.query('UPDATE warehouse SET name = ?, superuser_id = ? WHERE id = ?', [name, superuser_id, id]);

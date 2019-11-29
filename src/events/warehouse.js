@@ -15,11 +15,10 @@ module.exports = {
         const { id, type } = auth.validateData(data);
 
         if(type !== 'superuser')
-            throw 'Only superusers cant add warehouses';
+            throw 'Only superusers can add warehouses';
         
         has(data, ['name', 'superuser_id']);
 
-        const 
         
         return await warehouse.create(name, superuser_id);
     },

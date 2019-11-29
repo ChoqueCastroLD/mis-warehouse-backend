@@ -16,6 +16,10 @@ function loadEvents(events, socket) {
             const event = key+":"+method;
             socket.on(event, (d, response) => {
                 socket.event = event;
+
+                socket.getSession = (prop) => {socket.handshake.session[prop]; socket.handshake.session.save()}
+                socket.setSession = (prop, value) => {socket.handshake.session[prop] = value; socket.handshake.session.save()}
+
                 fn( socket, fixData(d) )
                 .then( r => {
                     response({status: true, data: r});
