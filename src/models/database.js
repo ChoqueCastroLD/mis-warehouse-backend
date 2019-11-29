@@ -1,9 +1,11 @@
 require('mandatoryenv').load([
     'DB_HOST',
     'DB_DATABASE',
-    'DB_USER',
-    'DB_PASSWORD'
+    'DB_DATABASE',
+    'DB_USER'
 ]);
+
+const DB_DATABASE = process.env.DB_DATABASE || '';
 
 const mysqlm = require('mysqlm');
 
