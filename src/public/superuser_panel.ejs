@@ -1,18 +1,17 @@
 <%- include('layouts/header') %>
+<%- include('navbar') %>
 
-<ul class="collapsible expandable" id="listPanel">
-    <li>
-        <div class="collapsible-header"><i class="material-icons">star</i>Almacenes</div>
-        <div class="collapsible-body"><span>
-            <input id="txtNewWarehouse" type="text" class="validate">
-            <a id="btnNewWarehouse" class="waves-effect waves-light btn-small">Añadir</a>
-        </span></div>
-    </li>
-    <li>
-        <div class="collapsible-header"><i class="material-icons">table</i>Third</div>
-        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-    </li>
-</ul>
 
-<script src="/js/speruser.panel.js"></script>
+
+<div class="container">
+      
+        <%- include('createWarehouse') %>
+
+</div>
+<div class="container">
+        <%- include('createSubUser') %>
+</div>
+
+
+
 <%- include('layouts/footer') %>
